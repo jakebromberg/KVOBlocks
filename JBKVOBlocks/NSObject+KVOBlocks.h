@@ -4,14 +4,12 @@
 //  Created by Jake Bromberg on 10/11/13.
 //
 
-#import <Foundation/Foundation.h>
+typedef void (^JBKVOObservationBlock)(NSDictionary *change);
 
 @interface NSObject (KVOBlocks)
 
-typedef void (^JBKVOObservationBlock)(NSDictionary *change);
-
-- (void)observeKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block;
-- (void)observeManyKeyPaths:(NSArray *)keyPaths changeBlock:(JBKVOObservationBlock)block;
+- (void)observeSelfWithKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block;
+- (void)observeSelfWithManyKeyPaths:(NSArray *)keyPaths changeBlock:(JBKVOObservationBlock)block;
 - (void)addBlockObserver:(id)observer forKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block;
 - (void)addBlockObserver:(id)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options changeBlock:(JBKVOObservationBlock)block;
 

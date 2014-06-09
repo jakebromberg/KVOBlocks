@@ -24,13 +24,10 @@
 
 - (instancetype)initWithObserver:(id)observer
 {
-    self = [super init];
+    if (!(self = [super init])) return nil;
     
-    if (!self)
-        return nil;
-    
-	self.keyPaths = [NSMutableSet set];
-    self.observer = observer;
+	_keyPaths = [NSMutableSet set];
+    _observer = observer;
     
     return self;
 }
@@ -83,14 +80,14 @@
 
 @implementation NSObject (KVOBlocks)
 
-- (void)observeManyKeyPaths:(NSArray *)keyPaths changeBlock:(JBKVOObservationBlock)block
+- (void)observeSelfWithManyKeyPaths:(NSArray *)keyPaths changeBlock:(JBKVOObservationBlock)block
 {
 	for (NSString *keyPath in keyPaths) {
-		[self observeKeyPath:keyPath changeBlock:block];
+		[self observeSelfWithKeyPath:keyPath changeBlock:block];
 	}
 }
 
-- (void)observeKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block
+- (void)observeSelfWithKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block
 {
 	[self addBlockObserver:self forKeyPath:keyPath changeBlock:block];
 }

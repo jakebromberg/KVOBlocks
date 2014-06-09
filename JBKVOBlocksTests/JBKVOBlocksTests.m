@@ -39,7 +39,7 @@
 {
     __block BOOL blockExecuted = NO;
     
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
         blockExecuted = YES;
     }];
 
@@ -62,27 +62,27 @@
         XCTAssertEqualObjects(change[NSKeyValueChangeNewKey], expectedValueB);
     };
     
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlockA];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlockA];
     
     [self.testObj setValue:expectedValueA forKeyPath:@keypath(self.testObj, propertyA)];
     
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlockB];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlockB];
     
     [self.testObj setValue:expectedValueB forKeyPath:@keypath(self.testObj, propertyA)];
 }
 
 - (void)testProvidingTwoBlocksForSameObserverAndKeyPathClobbersFirstAddedBlock
 {
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.passingBlock];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.passingBlock];
     
     [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyA)];
 }
 
 - (void)testRemovingAllBlocks
 {
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.failingBlock];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.failingBlock];
     
     [self.testObj removeBlockObservers];
 
@@ -92,8 +92,8 @@
 
 - (void)testRemovingOneBlock
 {
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.passingBlock];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.passingBlock];
     
     [self.testObj removeBlockObserver:self.testObj forKeyPath:@keypath(self.testObj, propertyA)];
     
@@ -106,7 +106,7 @@
     NSArray *const keypaths = @[@keypath(self.testObj, propertyA), @keypath(self.testObj, propertyB)];
     __block int timesExecuted = 0;
     
-    [self.testObj observeManyKeyPaths:keypaths changeBlock:^(NSDictionary *change) {
+    [self.testObj observeSelfWithManyKeyPaths:keypaths changeBlock:^(NSDictionary *change) {
         timesExecuted++;
     }];
     
@@ -114,12 +114,12 @@
         [self.testObj setValue:@0 forKeyPath:keypath];
     }
     
-    XCTAssert(timesExecuted == [keypaths count], @"Block should have executed %i times, but only did %i times.", [keypaths count], timesExecuted);
+    XCTAssert(timesExecuted == [keypaths count], @"Block should have executed %lu times, but only did %i times.", (unsigned long)[keypaths count], timesExecuted);
 }
 
 - (void)testRemoveObservationWithinObservationBlock
 {
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
         [self.testObj removeBlockObservers];
     }];
     
@@ -130,7 +130,7 @@
 {
     __block int timesExecuted = 0;
     
-    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
+    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
         if (timesExecuted++ == 0)
         {
             XCTAssertEqualObjects(change[NSKeyValueChangeOldKey], [NSNull null]);
