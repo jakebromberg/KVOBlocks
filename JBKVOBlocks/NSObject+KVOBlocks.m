@@ -14,8 +14,8 @@
 - (void)removeAllObservationBlocks;
 - (void)removeObservationBlockForKeyPath:(NSString *)keypath;
 
-@property (nonatomic, retain) NSMutableSet *keyPaths;
-@property (nonatomic, assign) id observer;
+@property (nonatomic, strong) NSMutableSet *keyPaths;
+@property (nonatomic, weak) id observer;
 
 @end
 
