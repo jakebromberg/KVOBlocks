@@ -10,30 +10,20 @@
 		3A63D09018775AA6002D91AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D08F18775AA6002D91AF /* Foundation.framework */; };
 		3A63D09E18775AA6002D91AF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D09D18775AA6002D91AF /* XCTest.framework */; };
 		3A63D09F18775AA6002D91AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D08F18775AA6002D91AF /* Foundation.framework */; };
-		3A63D0A118775AA6002D91AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D0A018775AA6002D91AF /* UIKit.framework */; };
 		3A63D0A418775AA6002D91AF /* libJBKVOBlocks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D08C18775AA6002D91AF /* libJBKVOBlocks.a */; };
 		3A63D0AA18775AA6002D91AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A63D0A818775AA6002D91AF /* InfoPlist.strings */; };
 		3A63D0AC18775AA6002D91AF /* JBKVOBlocksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0AB18775AA6002D91AF /* JBKVOBlocksTests.m */; };
 		3A63D0B718775B66002D91AF /* NSObject+KVOBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0B618775B66002D91AF /* NSObject+KVOBlocks.m */; };
 		3A63D0B81877681A002D91AF /* NSObject+KVOBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0B618775B66002D91AF /* NSObject+KVOBlocks.m */; };
 		3A63D0BB1877688D002D91AF /* JBKVOTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0BA1877688D002D91AF /* JBKVOTestObject.m */; };
-		3A63D0D5187B2AA6002D91AF /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0BE187B2AA6002D91AF /* EXTADT.m */; };
 		3A63D0D6187B2AA6002D91AF /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0BE187B2AA6002D91AF /* EXTADT.m */; };
-		3A63D0D7187B2AA6002D91AF /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0C0187B2AA6002D91AF /* EXTConcreteProtocol.m */; };
 		3A63D0D8187B2AA6002D91AF /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0C0187B2AA6002D91AF /* EXTConcreteProtocol.m */; };
-		3A63D0D9187B2AA6002D91AF /* EXTNil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0C4187B2AA6002D91AF /* EXTNil.m */; };
 		3A63D0DA187B2AA6002D91AF /* EXTNil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0C4187B2AA6002D91AF /* EXTNil.m */; };
-		3A63D0DB187B2AA6002D91AF /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0C8187B2AA6002D91AF /* EXTRuntimeExtensions.m */; };
 		3A63D0DC187B2AA6002D91AF /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0C8187B2AA6002D91AF /* EXTRuntimeExtensions.m */; };
-		3A63D0DD187B2AA6002D91AF /* EXTSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0CA187B2AA6002D91AF /* EXTSafeCategory.m */; };
 		3A63D0DE187B2AA6002D91AF /* EXTSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0CA187B2AA6002D91AF /* EXTSafeCategory.m */; };
-		3A63D0DF187B2AA6002D91AF /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0CC187B2AA6002D91AF /* EXTScope.m */; };
 		3A63D0E0187B2AA6002D91AF /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0CC187B2AA6002D91AF /* EXTScope.m */; };
-		3A63D0E1187B2AA6002D91AF /* EXTSelectorChecking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0CE187B2AA6002D91AF /* EXTSelectorChecking.m */; };
 		3A63D0E2187B2AA6002D91AF /* EXTSelectorChecking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0CE187B2AA6002D91AF /* EXTSelectorChecking.m */; };
-		3A63D0E3187B2AA6002D91AF /* NSInvocation+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0D2187B2AA6002D91AF /* NSInvocation+EXT.m */; };
 		3A63D0E4187B2AA6002D91AF /* NSInvocation+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0D2187B2AA6002D91AF /* NSInvocation+EXT.m */; };
-		3A63D0E5187B2AA6002D91AF /* NSMethodSignature+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0D4187B2AA6002D91AF /* NSMethodSignature+EXT.m */; };
 		3A63D0E6187B2AA6002D91AF /* NSMethodSignature+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D0D4187B2AA6002D91AF /* NSMethodSignature+EXT.m */; };
 /* End PBXBuildFile section */
 
@@ -65,7 +55,6 @@
 		3A63D09318775AA6002D91AF /* JBKVOBlocks-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JBKVOBlocks-Prefix.pch"; sourceTree = "<group>"; };
 		3A63D09C18775AA6002D91AF /* JBKVOBlocksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JBKVOBlocksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A63D09D18775AA6002D91AF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		3A63D0A018775AA6002D91AF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		3A63D0A718775AA6002D91AF /* JBKVOBlocksTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JBKVOBlocksTests-Info.plist"; sourceTree = "<group>"; };
 		3A63D0A918775AA6002D91AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3A63D0AB18775AA6002D91AF /* JBKVOBlocksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBKVOBlocksTests.m; sourceTree = "<group>"; };
@@ -113,7 +102,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A63D09E18775AA6002D91AF /* XCTest.framework in Frameworks */,
-				3A63D0A118775AA6002D91AF /* UIKit.framework in Frameworks */,
 				3A63D09F18775AA6002D91AF /* Foundation.framework in Frameworks */,
 				3A63D0A418775AA6002D91AF /* libJBKVOBlocks.a in Frameworks */,
 			);
@@ -125,7 +113,6 @@
 		3A63D08318775AA6002D91AF = {
 			isa = PBXGroup;
 			children = (
-				3A63D0BC187B2AA6002D91AF /* extobjc */,
 				3A63D09118775AA6002D91AF /* JBKVOBlocks */,
 				3A63D0A518775AA6002D91AF /* XBXKVOBlocksTests */,
 				3A63D08E18775AA6002D91AF /* Frameworks */,
@@ -147,7 +134,6 @@
 			children = (
 				3A63D08F18775AA6002D91AF /* Foundation.framework */,
 				3A63D09D18775AA6002D91AF /* XCTest.framework */,
-				3A63D0A018775AA6002D91AF /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,6 +159,7 @@
 		3A63D0A518775AA6002D91AF /* XBXKVOBlocksTests */ = {
 			isa = PBXGroup;
 			children = (
+				3A63D0BC187B2AA6002D91AF /* extobjc */,
 				3A63D0AB18775AA6002D91AF /* JBKVOBlocksTests.m */,
 				3A63D0A618775AA6002D91AF /* Supporting Files */,
 				3A63D0B91877688D002D91AF /* JBKVOTestObject.h */,
@@ -219,7 +206,8 @@
 				3A63D0D3187B2AA6002D91AF /* NSMethodSignature+EXT.h */,
 				3A63D0D4187B2AA6002D91AF /* NSMethodSignature+EXT.m */,
 			);
-			path = extobjc;
+			name = extobjc;
+			path = ../extobjc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +254,7 @@
 		3A63D08418775AA6002D91AF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = Microsoft;
 			};
 			buildConfigurationList = 3A63D08718775AA6002D91AF /* Build configuration list for PBXProject "JBKVOBlocks" */;
@@ -303,16 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A63D0DF187B2AA6002D91AF /* EXTScope.m in Sources */,
-				3A63D0E5187B2AA6002D91AF /* NSMethodSignature+EXT.m in Sources */,
-				3A63D0E1187B2AA6002D91AF /* EXTSelectorChecking.m in Sources */,
-				3A63D0D9187B2AA6002D91AF /* EXTNil.m in Sources */,
 				3A63D0B718775B66002D91AF /* NSObject+KVOBlocks.m in Sources */,
-				3A63D0D5187B2AA6002D91AF /* EXTADT.m in Sources */,
-				3A63D0D7187B2AA6002D91AF /* EXTConcreteProtocol.m in Sources */,
-				3A63D0DB187B2AA6002D91AF /* EXTRuntimeExtensions.m in Sources */,
-				3A63D0E3187B2AA6002D91AF /* NSInvocation+EXT.m in Sources */,
-				3A63D0DD187B2AA6002D91AF /* EXTSafeCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,11 +407,13 @@
 		3A63D0B018775AA6002D91AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				DSTROOT = /tmp/JBKVOBlocks.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JBKVOBlocks/JBKVOBlocks-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = JBKVOBlocks;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -440,11 +421,13 @@
 		3A63D0B118775AA6002D91AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				DSTROOT = /tmp/JBKVOBlocks.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JBKVOBlocks/JBKVOBlocks-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = JBKVOBlocks;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -452,6 +435,7 @@
 		3A63D0B318775AA6002D91AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -465,6 +449,7 @@
 				);
 				INFOPLIST_FILE = "JBKVOBlocksTests/JBKVOBlocksTests-Info.plist";
 				PRODUCT_NAME = JBKVOBlocksTests;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -472,6 +457,7 @@
 		3A63D0B418775AA6002D91AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -481,6 +467,7 @@
 				GCC_PREFIX_HEADER = "JBKVOBlocks/JBKVOBlocks-Prefix.pch";
 				INFOPLIST_FILE = "JBKVOBlocksTests/JBKVOBlocksTests-Info.plist";
 				PRODUCT_NAME = JBKVOBlocksTests;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

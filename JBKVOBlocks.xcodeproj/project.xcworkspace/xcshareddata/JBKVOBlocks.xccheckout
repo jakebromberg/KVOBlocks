@@ -10,29 +10,29 @@
 	<string>JBKVOBlocks</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>EFEA618F-05C6-435D-BDC4-93A4F8A6CAC2</key>
+		<key>5BB32CC9FFE0743262CF2DD3AC704940FB6B8583</key>
 		<string>https://github.com/jakebromberg/KVOBlocks.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>JBKVOBlocks.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>EFEA618F-05C6-435D-BDC4-93A4F8A6CAC2</key>
+		<key>5BB32CC9FFE0743262CF2DD3AC704940FB6B8583</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/jakebromberg/KVOBlocks.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>EFEA618F-05C6-435D-BDC4-93A4F8A6CAC2</string>
+	<string>5BB32CC9FFE0743262CF2DD3AC704940FB6B8583</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>EFEA618F-05C6-435D-BDC4-93A4F8A6CAC2</string>
+			<string>5BB32CC9FFE0743262CF2DD3AC704940FB6B8583</string>
 			<key>IDESourceControlWCCName</key>
 			<string>KVOBlocks</string>
 		</dict>
