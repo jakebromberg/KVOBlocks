@@ -39,7 +39,8 @@
 {
     __block BOOL blockExecuted = NO;
     
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
+    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change)
+    {
         blockExecuted = YES;
     }];
 
@@ -48,54 +49,28 @@
     XCTAssertTrue(blockExecuted, @"Failed to execute observation block after property changed.");
 }
 
-- (void)testExpectedValues
+- (void)testOneKeyPathMultipleBlocks
 {
-    __block id const expectedValueA = @0;
-    __block id const expectedValueB = @1;
+    __block NSUInteger timesExecuted = 0;
     
-    id changeBlockA = ^(NSDictionary *change) {
-        XCTAssertEqualObjects(change[NSKeyValueChangeNewKey], expectedValueA);
-    };
-
-    id changeBlockB = ^(NSDictionary *change) {
-        XCTAssertEqualObjects(change[NSKeyValueChangeOldKey], expectedValueA);
-        XCTAssertEqualObjects(change[NSKeyValueChangeNewKey], expectedValueB);
+    JBKVOObservationBlock changeBlock = ^(id change)
+    {
+        timesExecuted++;
     };
     
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlockA];
-    
-    [self.testObj setValue:expectedValueA forKeyPath:@keypath(self.testObj, propertyA)];
-    
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlockB];
-    
-    [self.testObj setValue:expectedValueB forKeyPath:@keypath(self.testObj, propertyA)];
-}
-
-- (void)testProvidingTwoBlocksForSameObserverAndKeyPathClobbersFirstAddedBlock
-{
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.passingBlock];
+    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlock];
+    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlock];
     
     [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyA)];
-}
-
-- (void)testRemovingAllBlocks
-{
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.failingBlock];
-    
-    [self.testObj removeBlockObservers];
-
-    [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyA)];
-    [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyB)];
+    XCTAssertEqual(timesExecuted, 2);
 }
 
 - (void)testRemovingOneBlock
 {
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.passingBlock];
+    JBObservationToken *tokenA = [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
+    [self.testObj observeKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.passingBlock];
     
-    [self.testObj removeBlockObserver:self.testObj forKeyPath:@keypath(self.testObj, propertyA)];
+    [self.testObj removeObservation:tokenA];
     
     [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyA)];
     [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyB)];
@@ -103,26 +78,29 @@
 
 - (void)testObserveManyKeyPaths
 {
-    NSArray *const keypaths = @[@keypath(self.testObj, propertyA), @keypath(self.testObj, propertyB)];
-    __block int timesExecuted = 0;
+    __block NSUInteger timesExecuted = 0;
     
-    [self.testObj observeSelfWithManyKeyPaths:keypaths changeBlock:^(NSDictionary *change) {
+    JBKVOObservationBlock changeBlock = ^(id change)
+    {
         timesExecuted++;
-    }];
+    };
     
-    for (NSString *keypath in keypaths) {
-        [self.testObj setValue:@0 forKeyPath:keypath];
-    }
+    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:changeBlock];
+    [self.testObj observeKeyPath:@keypath(self.testObj, propertyB) changeBlock:changeBlock];
     
-    XCTAssertEqual(timesExecuted, [keypaths count], @"Block should have executed %lu times, but only did %i times.", (unsigned long)[keypaths count], timesExecuted);
+    self.testObj.propertyA = @0;
+    self.testObj.propertyB = @0;
+    
+    XCTAssertEqual(timesExecuted, 2);
 }
 
 - (void)testRemoveObservationWithinObservationBlock
 {
     __block NSNumber *expectedValue = @1;
     
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
-        [self.testObj removeBlockObservers];
+    __block JBObservationToken *token = [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change)
+    {
+        [self.testObj removeObservation:token];
         expectedValue = change[NSKeyValueChangeNewKey];
     }];
     
@@ -136,12 +114,15 @@
 {
     __block int timesExecuted = 0;
     
-    [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
+    [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change)
+     {
         if (timesExecuted++ == 0)
         {
             XCTAssertEqualObjects(change[NSKeyValueChangeOldKey], [NSNull null]);
             XCTAssertEqualObjects(change[NSKeyValueChangeNewKey], @0);
-        } else {
+        }
+        else
+        {
             XCTAssertEqualObjects(change[NSKeyValueChangeOldKey], @0);
             XCTAssertEqualObjects(change[NSKeyValueChangeNewKey], @1);
         }
@@ -154,14 +135,16 @@
 
 - (JBKVOObservationBlock)failingBlock
 {
-    return ^(NSDictionary *change) {
+    return ^(NSDictionary *change)
+    {
         XCTFail(@"Executed a failing block.");
     };
 }
 
 - (JBKVOObservationBlock)passingBlock
 {
-    return ^(NSDictionary *change) {
+    return ^(NSDictionary *change)
+    {
         NSLog(@"Executed a passing block.");
     };
 }

@@ -8,71 +8,46 @@
 
 @interface JBKVOProxy : NSObject
 
-- (instancetype)initWithObserver:(id)observer;
+- (instancetype)initWithObservee:(id)observee keyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block;
 
-- (void)addObservationBlock:(JBKVOObservationBlock)block forKeyPath:(NSString *)keypath options:(NSKeyValueObservingOptions)options;
-- (void)removeAllObservationBlocks;
-- (void)removeObservationBlockForKeyPath:(NSString *)keypath;
-
-@property (nonatomic, strong) NSMutableSet *keyPaths;
-@property (nonatomic, weak) id observer;
+@property (nonatomic, weak) id observee;
+@property (nonatomic, copy) NSString *keyPath;
+@property (nonatomic, copy) JBKVOObservationBlock block;
 
 @end
 
 
 @implementation JBKVOProxy
 
-- (instancetype)initWithObserver:(id)observer
+static const void *kvoCtx = &kvoCtx;
+
+- (instancetype)initWithObservee:(id)observee keyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block
 {
     if (!(self = [super init])) return nil;
     
-	_keyPaths = [NSMutableSet set];
-    _observer = observer;
+    _observee = observee;
+    _keyPath = [keyPath copy];
+    _block = [block copy];
+    [_observee addObserver:self forKeyPath:_keyPath options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kvoCtx];
     
     return self;
 }
 
-- (void)addObservationBlock:(JBKVOObservationBlock)block forKeyPath:(NSString *)keypath options:(NSKeyValueObservingOptions)options
-{
-    if ([self.keyPaths containsObject:keypath])
-    {
-        [self removeObservationBlockForKeyPath:keypath];
-    }
-    
-	[self.keyPaths addObject:keypath];
-    [self.observer addObserver:self forKeyPath:keypath options:options context:(__bridge void *)(block)];
-}
-
-- (void)removeAllObservationBlocks
-{
-	for (NSString *keypath in self.keyPaths) {
-		[self.observer removeObserver:self forKeyPath:keypath];
-	}
-	
-	[self.keyPaths removeAllObjects];
-}
-
-- (void)removeObservationBlockForKeyPath:(NSString *)keypath
-{
-    [self.observer removeObserver:self forKeyPath:keypath];
-	[self.keyPaths removeObject:keypath];
-}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	@try {
-		JBKVOObservationBlock block = (__bridge JBKVOObservationBlock) context;
-		block(change);
-	}
-	@catch (NSException *exception) {
-		NSLog(@"%@", exception);
-	}
+    if (context != kvoCtx)
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+    else if ([keyPath isEqualToString:self.keyPath])
+    {
+        self.block(change);
+    }
 }
 
 - (void)dealloc
 {
-    [self removeAllObservationBlocks];
-    self.keyPaths = nil;
+    [_observee removeObserver:self forKeyPath:_keyPath];
 }
 
 @end
@@ -80,78 +55,41 @@
 
 @implementation NSObject (KVOBlocks)
 
-- (void)observeSelfWithManyKeyPaths:(NSArray *)keyPaths changeBlock:(JBKVOObservationBlock)block
+- (JBObservationToken *)observeKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)changeBlock
 {
-	for (NSString *keyPath in keyPaths) {
-		[self observeSelfWithKeyPath:keyPath changeBlock:block];
-	}
-}
-
-- (void)observeSelfWithKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block
-{
-	[self addBlockObserver:self forKeyPath:keyPath changeBlock:block];
-}
-
-- (void)addBlockObserver:(id)observer forKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block
-{
-	NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld;
-	[self addBlockObserver:observer forKeyPath:keyPath options:options changeBlock:block];
-}
-
-- (void)addBlockObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options changeBlock:(JBKVOObservationBlock)block
-{
-    JBKVOProxy *proxy = [[self observationProxies] objectForKey:observer];
+    JBObservationToken *token = [[JBObservationToken alloc] init];
+    JBKVOProxy *proxy = [[JBKVOProxy alloc] initWithObservee:self keyPath:keyPath changeBlock:changeBlock];
     
-    if (!proxy)
+    NSMapTable *tokenProxyMap = [self tokenProxyMap];
+    [tokenProxyMap setObject:proxy forKey:token];
+    
+    return token;
+}
+
+- (void)removeObservation:(JBObservationToken *)token
+{
+    NSMapTable *tokenProxyMap = [self tokenProxyMap];
+    [tokenProxyMap removeObjectForKey:token];
+}
+
+- (NSMapTable *)tokenProxyMap
+{
+    static NSMapTable *globalMap;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        globalMap = [NSMapTable weakToStrongObjectsMapTable];
+    });
+    
+    NSMapTable *tokenProxyMap = [globalMap objectForKey:self];
+    
+    if (!tokenProxyMap)
     {
-        proxy = [[JBKVOProxy alloc] initWithObserver:observer];
-		[[self observationProxies] setObject:proxy forKey:observer];
+        tokenProxyMap = [NSMapTable strongToStrongObjectsMapTable];
+        [globalMap setObject:tokenProxyMap forKey:self];
     }
     
-    [proxy addObservationBlock:block forKeyPath:keyPath options:options];
-}
-
-- (void)removeBlockObservers
-{
-    [self.observationProxies removeAllObjects];
-}
-
-- (void)removeBlockObserver:(NSObject *)observer
-{
-	id observerValue = [NSValue valueWithPointer:&observer];
-    
-	[[self observationProxies] removeObjectForKey:observerValue];
-}
-
-- (void)removeBlockObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath
-{
-    JBKVOProxy *proxy = [self.observationProxies objectForKey:observer];
-    [proxy removeObservationBlockForKeyPath:keyPath];
-}
-
-- (NSMapTable *)observationProxies
-{
-	NSMapTable *observationProxies = [[self observerMap] objectForKey:self];
-	
-	if (!observationProxies)
-    {
-		observationProxies = [NSMapTable weakToStrongObjectsMapTable];
-		[[self observerMap] setObject:observationProxies forKey:self];
-	}
-	
-    return observationProxies;
-}
-
-- (NSMapTable *)observerMap
-{
-    static NSMapTable __strong *_observerMap;
-
-    if (!_observerMap)
-    {
-        _observerMap = [NSMapTable strongToStrongObjectsMapTable];
-    }
-    
-    return _observerMap;
+    return tokenProxyMap;
 }
 
 @end
