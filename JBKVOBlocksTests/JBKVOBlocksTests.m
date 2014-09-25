@@ -114,16 +114,22 @@
         [self.testObj setValue:@0 forKeyPath:keypath];
     }
     
-    XCTAssert(timesExecuted == [keypaths count], @"Block should have executed %lu times, but only did %i times.", (unsigned long)[keypaths count], timesExecuted);
+    XCTAssertEqual(timesExecuted, [keypaths count], @"Block should have executed %lu times, but only did %i times.", (unsigned long)[keypaths count], timesExecuted);
 }
 
 - (void)testRemoveObservationWithinObservationBlock
 {
+    __block NSNumber *expectedValue = @1;
+    
     [self.testObj observeSelfWithKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change) {
         [self.testObj removeBlockObservers];
+        expectedValue = change[NSKeyValueChangeNewKey];
     }];
     
     [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyA)];
+    [self.testObj setValue:@1 forKeyPath:@keypath(self.testObj, propertyA)];
+    
+    XCTAssertEqualObjects(expectedValue, @0);
 }
 
 - (void)testMutationWorksCorrectly
