@@ -100,12 +100,12 @@
 
 - (void)addBlockObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options changeBlock:(JBKVOObservationBlock)block
 {
-    JBKVOProxy *proxy = [[self observerProxyMap] objectForKey:observer];
+    JBKVOProxy *proxy = [[self observationProxies] objectForKey:observer];
     
     if (!proxy)
     {
         proxy = [[JBKVOProxy alloc] initWithObserver:observer];
-		[[self observerProxyMap] setObject:proxy forKey:observer];
+		[[self observationProxies] setObject:proxy forKey:observer];
     }
     
     [proxy addObservationBlock:block forKeyPath:keyPath options:options];
@@ -113,32 +113,33 @@
 
 - (void)removeBlockObservers
 {
-    [self.observerProxyMap removeAllObjects];
+    [self.observationProxies removeAllObjects];
 }
 
 - (void)removeBlockObserver:(NSObject *)observer
 {
 	id observerValue = [NSValue valueWithPointer:&observer];
     
-	[[self observerProxyMap] removeObjectForKey:observerValue];
+	[[self observationProxies] removeObjectForKey:observerValue];
 }
 
 - (void)removeBlockObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath
 {
-    JBKVOProxy *proxy = [self.observerProxyMap objectForKey:observer];
+    JBKVOProxy *proxy = [self.observationProxies objectForKey:observer];
     [proxy removeObservationBlockForKeyPath:keyPath];
 }
 
-- (NSMapTable *)observerProxyMap
+- (NSMapTable *)observationProxies
 {
-	NSMapTable *observerProxyMap = [[self observerMap] objectForKey:self];
+	NSMapTable *observationProxies = [[self observerMap] objectForKey:self];
 	
-	if (!observerProxyMap) {
-		observerProxyMap = [NSMapTable weakToStrongObjectsMapTable];
-		[[self observerMap] setObject:observerProxyMap forKey:self];
+	if (!observationProxies)
+    {
+		observationProxies = [NSMapTable weakToStrongObjectsMapTable];
+		[[self observerMap] setObject:observationProxies forKey:self];
 	}
 	
-    return observerProxyMap;
+    return observationProxies;
 }
 
 - (NSMapTable *)observerMap
@@ -146,7 +147,9 @@
     static NSMapTable __strong *_observerMap;
 
     if (!_observerMap)
+    {
         _observerMap = [NSMapTable strongToStrongObjectsMapTable];
+    }
     
     return _observerMap;
 }
