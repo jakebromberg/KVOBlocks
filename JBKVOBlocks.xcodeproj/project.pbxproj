@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2301427A19D4B3D500F3F009 /* JBObservationToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 2301427919D4B3D500F3F009 /* JBObservationToken.m */; };
 		3A63D09018775AA6002D91AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D08F18775AA6002D91AF /* Foundation.framework */; };
 		3A63D09E18775AA6002D91AF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D09D18775AA6002D91AF /* XCTest.framework */; };
 		3A63D09F18775AA6002D91AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A63D08F18775AA6002D91AF /* Foundation.framework */; };
@@ -51,8 +50,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2301427819D4B3D500F3F009 /* JBObservationToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBObservationToken.h; sourceTree = "<group>"; };
-		2301427919D4B3D500F3F009 /* JBObservationToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBObservationToken.m; sourceTree = "<group>"; };
 		3A63D08C18775AA6002D91AF /* libJBKVOBlocks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJBKVOBlocks.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A63D08F18775AA6002D91AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3A63D09318775AA6002D91AF /* JBKVOBlocks-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JBKVOBlocks-Prefix.pch"; sourceTree = "<group>"; };
@@ -147,8 +144,6 @@
 				3A63D09218775AA6002D91AF /* Supporting Files */,
 				3A63D0B518775B66002D91AF /* NSObject+KVOBlocks.h */,
 				3A63D0B618775B66002D91AF /* NSObject+KVOBlocks.m */,
-				2301427819D4B3D500F3F009 /* JBObservationToken.h */,
-				2301427919D4B3D500F3F009 /* JBObservationToken.m */,
 			);
 			path = JBKVOBlocks;
 			sourceTree = "<group>";
@@ -296,7 +291,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2301427A19D4B3D500F3F009 /* JBObservationToken.m in Sources */,
 				3A63D0B718775B66002D91AF /* NSObject+KVOBlocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
