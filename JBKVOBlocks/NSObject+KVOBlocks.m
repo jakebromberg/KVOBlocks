@@ -20,8 +20,6 @@
 
 @implementation JBKVOProxy
 
-static const void *kvoCtx = &kvoCtx;
-
 - (instancetype)initWithObservee:(id)observee keyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block
 {
     if (!(self = [super init])) return nil;
