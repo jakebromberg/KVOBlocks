@@ -67,7 +67,7 @@
 
 - (void)testRemovingOneBlock
 {
-    JBObservationToken *tokenA = [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
+    void *tokenA = [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:self.failingBlock];
     [self.testObj observeKeyPath:@keypath(self.testObj, propertyB) changeBlock:self.passingBlock];
     
     [self.testObj removeObservation:tokenA];
@@ -98,11 +98,11 @@
 {
     __block NSNumber *expectedValue = @1;
     
-    __block JBObservationToken *token = [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:^(NSDictionary *change)
-    {
-        [self.testObj removeObservation:token];
-        expectedValue = change[NSKeyValueChangeNewKey];
-    }];
+    __block void *token = [self.testObj observeKeyPath:@keypath(self.testObj, propertyA) changeBlock:
+        ^(NSDictionary *change) {
+            [self.testObj removeObservation:token];
+            expectedValue = change[NSKeyValueChangeNewKey];
+        }];
     
     [self.testObj setValue:@0 forKeyPath:@keypath(self.testObj, propertyA)];
     [self.testObj setValue:@1 forKeyPath:@keypath(self.testObj, propertyA)];

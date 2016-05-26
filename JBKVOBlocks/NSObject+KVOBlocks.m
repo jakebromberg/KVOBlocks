@@ -5,12 +5,13 @@
 //
 
 #import "NSObject+KVOBlocks.h"
+#import <objc/runtime.h>
 
 @interface JBKVOProxy : NSObject
 
 - (instancetype)initWithObservee:(id)observee keyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)block;
 
-@property (nonatomic, weak) id observee;
+@property (nonatomic, assign) id observee;
 @property (nonatomic, copy) NSString *keyPath;
 @property (nonatomic, copy) JBKVOObservationBlock block;
 
@@ -27,15 +28,16 @@ static const void *kvoCtx = &kvoCtx;
     
     _observee = observee;
     _keyPath = [keyPath copy];
-    _block = [block copy];
-    [_observee addObserver:self forKeyPath:_keyPath options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:&kvoCtx];
+    _block = block;
+    [observee addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:(void *)self];
+    objc_setAssociatedObject(_observee, (__bridge void *)(self), self, OBJC_ASSOCIATION_RETAIN);
     
     return self;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (context != kvoCtx)
+    if (context != ((__bridge void *)self))
     {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -55,41 +57,14 @@ static const void *kvoCtx = &kvoCtx;
 
 @implementation NSObject (KVOBlocks)
 
-- (JBObservationToken *)observeKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)changeBlock
+- (void *)observeKeyPath:(NSString *)keyPath changeBlock:(JBKVOObservationBlock)changeBlock
 {
-    JBObservationToken *token = [[JBObservationToken alloc] init];
-    JBKVOProxy *proxy = [[JBKVOProxy alloc] initWithObservee:self keyPath:keyPath changeBlock:changeBlock];
-    
-    NSMapTable *tokenProxyMap = [self tokenProxyMap];
-    [tokenProxyMap setObject:proxy forKey:token];
-    
-    return token;
+    return (__bridge void *) [[JBKVOProxy alloc] initWithObservee:self keyPath:keyPath changeBlock:changeBlock];
 }
 
-- (void)removeObservation:(JBObservationToken *)token
+- (void)removeObservation:(void *)token
 {
-    NSMapTable *tokenProxyMap = [self tokenProxyMap];
-    [tokenProxyMap removeObjectForKey:token];
-}
-
-- (NSMapTable *)tokenProxyMap
-{
-    static NSMapTable *globalMap;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        globalMap = [NSMapTable weakToStrongObjectsMapTable];
-    });
-    
-    NSMapTable *tokenProxyMap = [globalMap objectForKey:self];
-    
-    if (!tokenProxyMap)
-    {
-        tokenProxyMap = [NSMapTable strongToStrongObjectsMapTable];
-        [globalMap setObject:tokenProxyMap forKey:self];
-    }
-    
-    return tokenProxyMap;
+    objc_setAssociatedObject(self, token, nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end

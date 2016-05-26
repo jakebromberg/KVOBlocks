@@ -4,13 +4,11 @@
 //  Created by Jake Bromberg on 10/11/13.
 //
 
-#import "JBObservationToken.h"
-
-typedef void (^JBKVOObservationBlock)(NSDictionary *change);
+typedef void (^JBKVOObservationBlock)(NSDictionary * _Nonnull change);
 
 @interface NSObject (KVOBlocks)
 
-- (JBObservationToken *)observeKeyPath:(NSString *)keypath changeBlock:(JBKVOObservationBlock)changeBlock;
-- (void)removeObservation:(JBObservationToken *)token;
+- (nonnull void *)observeKeyPath:(nonnull NSString *)keypath changeBlock:(nonnull JBKVOObservationBlock)changeBlock;
+- (void)removeObservation:(nonnull void *)token;
 
 @end
